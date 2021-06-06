@@ -4,9 +4,12 @@ const resolvers = require('./graphQl/resolvers')
 const typeDefs = require('./graphQl/typeDef')
 const { MONGO_URI } = require('./config/env.json')
 
+const contextMiddleware = require('./utils/contextMiddleware')
+
 const server = new ApolloServer({
   typeDefs,
   resolvers,
+  context: contextMiddleware
 })
 
 const connectMongoDB = async() => {
