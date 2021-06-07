@@ -1,4 +1,4 @@
-const { UserInputError, AuthenticationError } = require('apollo-server')
+const { UserInputError, AuthenticationError, withFilter } = require('apollo-server')
 const User  = require('../../model/User')
 const  Message  = require('../../model/Message')
 const { v4: uuidv4 } = require('uuid');
@@ -34,7 +34,7 @@ module.exports = {
     Mutation: {
       sendMessage: async (parent, args, context) => {
           const { to, content } = args
-          const { user } = context
+          const { user, pubsub } = context
         try {
           if (!user) throw new AuthenticationError('Unauthenticated')
   
@@ -59,6 +59,9 @@ module.exports = {
           })
           //saving new message
           await newMessage.save()
+
+          //firing the subscription after saving message
+          pubsub.publish('NEW_MESSAGE', {newMessage: message})
   
           return newMessage
         } catch (err) {
@@ -67,15 +70,25 @@ module.exports = {
         }
       },
     },
+    Subscription: {
+      newMessage: {
+        subscribe: withFilter((_, __, { pubsub, user }) => {
+          //user needs to be authenticated for subscription
+          if (!user) throw new AuthenticationError('Unauthenticated')
+          
+          return pubsub.asyncIterator(['NEW_MESSAGE'])
+          },
+          ({ newMessage }, _, { user }) => {
+            if (newMessage.from === user.username || newMessage.to === user.username) {
+              return true
+            }
+            return false
+          }),
+      }
+    }
   }
 
-
-
-
-              //   const messages = await Message.findAll({
-            //     where: {
-            //       from: { [Op.in]: usernames },
-            //       to: { [Op.in]: usernames },
-            //     },
-            //     order: [['createdAt', 'DESC']],
-            //   })
+    //subscribe withFilter() will take two args
+   //subscribing to the messages of the logged in user
+   //user will only be able to see 'to' or 'from', not able to see otherUser messages
+  
