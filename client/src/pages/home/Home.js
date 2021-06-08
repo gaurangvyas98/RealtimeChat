@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, Nav, Navbar, NavbarBrand, Row } from 'react-bootstrap'
+import { Button, Nav, Navbar, Row } from 'react-bootstrap'
 import { useAuthDispatch } from '../../context/authContext'
 import Users from './Users'
 import Chat from './Chat'

@@ -3,6 +3,7 @@ import { Container } from 'react-bootstrap'
 import './App.scss';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom'
 import { AuthProvider, useAuthState } from './context/authContext';
+import { MessageProvider } from './context/messageContext';
 import Home from './pages/home/Home'
 import Register from './pages/register'
 import Login from './pages/login'
@@ -26,15 +27,17 @@ function App() {
   return (
     <ApolloProvider>
       <AuthProvider>
-        <BrowserRouter>
-          <Container>
-            <Switch>
-              <DynamicRoute exact path="/" component={Home} authenticated />
-              <DynamicRoute path="/register" component={Register} guest />
-              <DynamicRoute path="/login" component={Login} guest />
-            </Switch>
-          </Container>
-        </BrowserRouter>
+        <MessageProvider>
+          <BrowserRouter>
+            <Container>
+              <Switch>
+                <DynamicRoute exact path="/" component={Home} authenticated />
+                <DynamicRoute path="/register" component={Register} guest />
+                <DynamicRoute path="/login" component={Login} guest />
+              </Switch>
+            </Container>
+          </BrowserRouter>
+        </MessageProvider>
       </AuthProvider>
     </ApolloProvider>
   );
