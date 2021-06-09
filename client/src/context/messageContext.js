@@ -4,7 +4,8 @@ const MessageStateContext = createContext()
 const MessageDispatchContext = createContext()
 
 const messageReducer = (state, action) => {
-  let usersCopy, usersIndex
+  
+  let usersCopy, userIndex
   const { username, message, messages } = action.payload
 
   switch (action.type) {
@@ -20,7 +21,7 @@ const messageReducer = (state, action) => {
       // const { username, messages } = action.payload
       usersCopy = [...state.users]
 
-      const userIndex = usersCopy.findIndex((u) => u.username === username)
+      userIndex = usersCopy.findIndex((u) => u.username === username)
 
       usersCopy[userIndex] = { ...usersCopy[userIndex], messages }
 
@@ -50,7 +51,10 @@ const messageReducer = (state, action) => {
       //adding new messages to the existing ones
       let newUser = {
         ...usersCopy[userIndex],
-        messages: [message, ...usersCopy[userIndex].messages]
+        messages: usersCopy[userIndex].messages
+          ? [message, ...usersCopy[userIndex].messages]
+          : null,
+        latestMessage: message,
       }
 
       //adding the newUser in the users
