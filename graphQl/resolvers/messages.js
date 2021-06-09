@@ -61,7 +61,7 @@ module.exports = {
           await newMessage.save()
 
           //firing the subscription after saving message
-          pubsub.publish('NEW_MESSAGE', {newMessage: message})
+          pubsub.publish('NEW_MESSAGE', {newMessage: newMessage})
   
           return newMessage
         } catch (err) {

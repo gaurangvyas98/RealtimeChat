@@ -4,7 +4,9 @@ const MessageStateContext = createContext()
 const MessageDispatchContext = createContext()
 
 const messageReducer = (state, action) => {
-  let usersCopy
+  let usersCopy, usersIndex
+  const { username, message, messages } = action.payload
+
   switch (action.type) {
     //setting users in context
     case 'SET_USERS':
@@ -12,9 +14,10 @@ const messageReducer = (state, action) => {
         ...state,
         users: action.payload,
       }
+
     //setting the selectedUser messages in context
     case 'SET_USER_MESSAGES':
-      const { username, messages } = action.payload
+      // const { username, messages } = action.payload
       usersCopy = [...state.users]
 
       const userIndex = usersCopy.findIndex((u) => u.username === username)
@@ -25,6 +28,7 @@ const messageReducer = (state, action) => {
         ...state,
         users: usersCopy,
       }
+
     //adding a seleted boolean in context if the user is selected
     case 'SET_SELECTED_USER':
       usersCopy = state.users.map((user) => ({
@@ -36,6 +40,27 @@ const messageReducer = (state, action) => {
         ...state,
         users: usersCopy,
       }
+
+    //adding new message in context
+    case 'ADD_MESSAGE': 
+      usersCopy = [...state.users]
+      
+      userIndex = usersCopy.find((u) => u.username === username)
+
+      //adding new messages to the existing ones
+      let newUser = {
+        ...usersCopy[userIndex],
+        messages: [message, ...usersCopy[userIndex].messages]
+      }
+
+      //adding the newUser in the users
+      usersCopy[userIndex] = newUser
+
+      return{
+        ...state,
+        users: usersCopy
+      }
+      
     default:
       throw new Error(`Unknown action type: ${action.type}`)
   }
