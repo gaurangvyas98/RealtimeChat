@@ -1,11 +1,20 @@
 # RealtimeChat
 
-##install dependancies
-npm install
-cd client
-npm install
+## Install Dependancies
+<ul>
+  <li>npm install</li>
+  <li>cd client</li>
+  <li>npm install</li>
+</ul>
 
-##run project
-npm run server
-cd client
-npm start
+## Run Project
+<ul>
+  Server -
+  <li>npm run server</li>
+  <br />
+  Client -
+  <li>cd client</li>
+  <li>npm start</li>
+</ul>
+
+
