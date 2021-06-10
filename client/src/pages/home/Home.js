@@ -55,6 +55,9 @@ const Home = () => {
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
                 <Nav style={{marginLeft: 'auto'}}>
+                <Nav.Item className='navHeading text-white'>
+                   <h3>{user.username}</h3>
+                </Nav.Item>
                 <Nav.Item>
                     <Nav.Link href="/">
                     <Button className="btn btn-primary logoutButton" onClick={logout}>
