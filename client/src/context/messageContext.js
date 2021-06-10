@@ -42,28 +42,28 @@ const messageReducer = (state, action) => {
         users: usersCopy,
       }
 
-    //adding new message in context
-    case 'ADD_MESSAGE': 
-      usersCopy = [...state.users]
-      
-      userIndex = usersCopy.find((u) => u.username === username)
+      //adding new message in context
+      case 'ADD_MESSAGE':
+        usersCopy = [...state.users]
 
-      //adding new messages to the existing ones
-      let newUser = {
-        ...usersCopy[userIndex],
-        messages: usersCopy[userIndex].messages
-          ? [message, ...usersCopy[userIndex].messages]
-          : null,
-        latestMessage: message,
-      }
+        userIndex = usersCopy.findIndex((u) => u.username === username)
+        
+        //adding new messages to the existing ones
+        let newUser = {
+          ...usersCopy[userIndex],
+          messages: usersCopy[userIndex].messages
+            ? [message, ...usersCopy[userIndex].messages]
+            : null,
+          latestMessage: message,
+        }
+        
+        //adding the newUser in the users
+        usersCopy[userIndex] = newUser
 
-      //adding the newUser in the users
-      usersCopy[userIndex] = newUser
-
-      return{
-        ...state,
-        users: usersCopy
-      }
+        return {
+          ...state,
+          users: usersCopy,
+        }
       
     default:
       throw new Error(`Unknown action type: ${action.type}`)

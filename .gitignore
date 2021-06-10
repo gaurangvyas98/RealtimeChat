@@ -1,3 +1,6 @@
+/node_modules
 node_modules/
 config/
-seeder.js
+
+# production
+/build
