@@ -7,6 +7,16 @@
   <li>npm install</li>
 </ul>
 
+## Setup Project
+<ul>
+  <li>Create a config folder in root directory</li>
+  <li>Create a env.json file in config folder</li>
+  {
+    "MONGO_URI": mongodb connection link, 
+    "JWT_SECRET": "some secret string"
+  }
+</ul>
+
 ## Run Project
 <ul>
   Server -
